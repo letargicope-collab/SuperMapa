@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom'
 import type { Place } from '../data/places'
+import { placeLabel } from '../lib/placeLabel'
 
 type ArrivalToastProps = {
   place: Place
@@ -32,7 +33,7 @@ export default function ArrivalToast({ place, alreadyThere, onFinish, onDismiss 
           <strong className="sc-arrival__title">
             {alreadyThere ? 'Você já está aqui!' : 'Você chegou!'}
           </strong>
-          <span className="sc-arrival__place">Unidade {place.name}</span>
+          <span className="sc-arrival__place">Unidade {placeLabel(place)}</span>
           <span className="sc-arrival__address">{place.address}</span>
         </div>
 

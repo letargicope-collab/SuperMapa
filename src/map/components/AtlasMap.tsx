@@ -48,6 +48,7 @@ import {
   type Padding,
 } from '../lib/camera'
 import { requestCompassPermission, watchCompass } from '../lib/compass'
+import { comparePlaces, placeLabel } from '../lib/placeLabel'
 import { directionsUrl, fetchRoadRoute, RoutingError, type RoadRoute } from '../lib/roadRouting'
 import {
   createArrivalTracker,
@@ -139,10 +140,7 @@ const DESTINATION_GROUPS = (
 ).map(([uf, label]) => ({
   uf,
   label,
-  places: PLACES.filter((place) => place.uf === uf).sort((a, b) => {
-    if (Boolean(a.isHeadquarters) !== Boolean(b.isHeadquarters)) return a.isHeadquarters ? -1 : 1
-    return a.name.localeCompare(b.name, 'pt-BR')
-  }),
+  places: PLACES.filter((place) => place.uf === uf).sort(comparePlaces),
 })).filter((group) => group.places.length > 0)
 
 type ActiveRoute = {
@@ -1533,7 +1531,7 @@ const AtlasMap = forwardRef<AtlasMapHandle, AtlasMapProps>(function AtlasMap(
               {DESTINATION_GROUPS.map((group) => (
                 <optgroup key={group.uf} label={group.label}>
                   {group.places.map((place) => (
-                    <option key={place.id} value={place.id}>{place.name}</option>
+                    <option key={place.id} value={place.id}>{placeLabel(place)}</option>
                   ))}
                 </optgroup>
               ))}

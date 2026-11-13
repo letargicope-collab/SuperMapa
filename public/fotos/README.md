@@ -42,6 +42,11 @@ Coloque aqui, com exatamente estes nomes, as fotos de cada unidade
 Unidade ainda sem foto enviada: **ESC Super Ponta da Terra** (Maceió) —
 enquanto a imagem não existir, o cartão usa a foto institucional.
 
+Última atualização: coordenadas de **Salgado**, **Pão de Açúcar**, **Junqueiro**,
+**Piranhas**, **Águas Belas**, **Aracaju** atualizadas em `src/map/data/places.ts`.
+A unidade **Arapiraca — Primavera** (Rua Costa Gama, 528) foi adicionada e usa a
+foto da sede como placeholder, assim como **ESC Super Ponta da Terra**.
+
 Os PNGs desta pasta são a fonte; o site usa versões embutidas geradas por
 `npm run fotos` (arquivo `src/map/data/office-photos.ts`). Depois de adicionar
 ou trocar um PNG aqui, rode `npm run fotos` e faça o build para a foto entrar.

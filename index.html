@@ -9,36 +9,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* Base visual original. O antigo CSS da proposta foi removido da página
-     principal; os estilos do mapa ficam em src/map/atlas.css. */
+  /* Identidade visual Super Connect; os estilos do mapa ficam em src/map/atlas.css. */
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   html,body{margin:0}
   body{background:#2fae18;font-family:'Manrope',system-ui,sans-serif;color:#06301c;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:#06301c;text-decoration:none}
   a:hover{color:#04160d}
-  @keyframes scFadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
-  @keyframes scFly{
-    0%{transform:translateX(-32vw) translateY(0);opacity:0}
-    8%{opacity:1}
-    50%{transform:translateX(44vw) translateY(-12px)}
-    92%{opacity:1}
-    100%{transform:translateX(126vw) translateY(0);opacity:0}
-  }
   @media print{
     @page{ margin:12mm; }
     *{ animation:none!important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
     .sc-root{ overflow:visible!important; min-height:0!important; background-attachment:scroll!important; }
-    .sc-print-hide{ display:none!important; }
     section{ page-break-inside:avoid; }
-  }
-  @media(max-width:760px){
-    .sc-fly{ width:170px!important; top:24px!important; }
   }
   @media(max-width:640px){
     .sc-wrap{ padding-left:16px!important; padding-right:16px!important; }
-    .sc-sec{ margin-top:68px!important; }
-    .sc-hero{ padding-top:44px!important; padding-bottom:54px!important; }
   }
 </style>
 </head>

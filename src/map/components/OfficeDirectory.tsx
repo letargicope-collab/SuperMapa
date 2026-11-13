@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Place } from '../data/places'
+import { comparePlaces, placeLabel } from '../lib/placeLabel'
 
 type OfficeDirectoryProps = {
   places: Place[]
@@ -21,14 +22,11 @@ const STATE_LABEL: Record<Uf, string> = {
   PE: 'Pernambuco',
 }
 
-/**
- * Nome exibido no formato "Cidade — Bairro". Só a Sede/Matriz recebe a etiqueta
- * ao lado; o restante mostra o nome completo, para o município ficar explícito.
- */
+/** Rótulo CIDADE — BAIRRO; a sede/matriz e o Centro mantêm sua etiqueta. */
 function displayName(place: Place): { label: string; flag: string | null } {
-  const match = /\s+—\s+(Sede\/Matriz)\s*$/.exec(place.name)
-  if (!match) return { label: place.name, flag: null }
-  return { label: place.name.slice(0, match.index), flag: 'sede/matriz' }
+  if (place.isHeadquarters) return { label: placeLabel(place), flag: 'sede/matriz' }
+  const match = /\s*\(Centro\)\s*$/.exec(place.name)
+  return { label: placeLabel(place), flag: match ? 'centro' : null }
 }
 
 /** Rua/logradouro sem a repetição de cidade e UF no fim do endereço. */
@@ -81,12 +79,7 @@ export default function OfficeDirectory({
     return STATE_ORDER.map((uf) => {
       const items = places
         .filter((place) => place.uf === uf)
-        .sort((a, b) => {
-          if (Boolean(a.isHeadquarters) !== Boolean(b.isHeadquarters)) {
-            return a.isHeadquarters ? -1 : 1
-          }
-          return a.name.localeCompare(b.name, 'pt-BR')
-        })
+        .sort(comparePlaces)
       return { uf, label: STATE_LABEL[uf], items }
     }).filter((group) => group.items.length > 0)
   }, [places])

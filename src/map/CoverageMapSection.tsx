@@ -1,18 +1,8 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import type { CSSProperties } from "react";
 import AtlasMap, { type AtlasMapHandle } from "./components/AtlasMap";
 import OfficeDirectory from "./components/OfficeDirectory";
 import { PLACES, type Place } from "./data/places";
-import { sectionDivider, sectionLead, sectionTitle } from "../siteStyles";
 import "./atlas.css";
-
-const chipRow: CSSProperties = {
-  display: "flex",
-  flexWrap: "wrap",
-  gap: 12,
-  justifyContent: "center",
-  margin: "0 auto 26px",
-};
 
 function StatChip({ value, label }: { value: string; label: string }) {
   return (
@@ -33,13 +23,8 @@ function StatChip({ value, label }: { value: string; label: string }) {
   );
 }
 
-/**
- * AONDE NÓS ESTAMOS
- * Mapa interativo das unidades (script do repositório MapTest) integrado à
- * identidade visual da página: cartão fechado, menu lateral de cidades à
- * esquerda e mapa à direita.
- */
-export default function CoverageMapSection({ first = false }: { first?: boolean } = {}) {
+/** Mapa como primeira área visível; o resumo numérico fica depois do diretório. */
+export default function CoverageMapSection() {
   const mapRef = useRef<AtlasMapHandle | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [routeId, setRouteId] = useState<string | null>(null);
@@ -84,23 +69,7 @@ export default function CoverageMapSection({ first = false }: { first?: boolean 
   }, [revealMap]);
 
   return (
-    <section
-      className={first ? undefined : "sc-sec"}
-      style={{ marginTop: first ? 0 : 112, animation: "scFadeUp .8s cubic-bezier(.16,1,.3,1) both .08s" }}
-    >
-      <h2 style={sectionTitle}>Aonde nós estamos</h2>
-      <div style={sectionDivider} />
-      <p style={{ ...sectionLead, maxWidth: 680, marginBottom: 26 }}>
-        Selecione uma cidade no menu ou toque em um marcador para ver a unidade. Você também pode
-                traçar uma rota até o escritório que preferir.
-      </p>
-
-      <div style={chipRow}>
-        <StatChip value={String(stats.units)} label="Unidades" />
-        <StatChip value={String(stats.cities)} label="Cidades atendidas" />
-        <StatChip value={String(stats.states)} label="Estados · AL SE PE" />
-      </div>
-
+    <section className="sc-atlas-page" aria-label="Mapa das unidades Super Connect">
       <div className="sc-atlas">
         <div className="sc-atlas-card">
           <div className="sc-atlas-shell">
@@ -160,6 +129,13 @@ export default function CoverageMapSection({ first = false }: { first?: boolean 
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Os totais ficam abaixo do mapa e do menu, não acima do conteúdo. */}
+      <div className="sc-atlas-stats" role="group" aria-label="Resumo das unidades">
+        <StatChip value={String(stats.units)} label="Unidades" />
+        <StatChip value={String(stats.cities)} label="Cidades atendidas" />
+        <StatChip value={String(stats.states)} label="Estados · AL SE PE" />
       </div>
     </section>
   );
